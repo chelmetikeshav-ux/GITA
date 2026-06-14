@@ -1,0 +1,15 @@
+# Ignore our secret API keys file
+.env
+
+# Ignore our python virtual environment
+venv/
+.venv/
+env/
+
+# Ignore local vector database folders (optional, but recommended if you want users to build it fresh)
+gita_complete_db/
+
+# Ignore python system caches
+__pycache__/
+*.pyc
+.streamlit/
