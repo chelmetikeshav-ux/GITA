@@ -112,8 +112,8 @@ theme_html = """
 <div class="peacock-feather pf4"></div>
 <div class="peacock-feather pf5"></div>
 
-<h1 class="main-header">🙏 Dialogue with Sri Krishna</h1>
-<p class="sub-header">Surrender your dilemmas and receive direct words of comfort from Keshav</p>
+<h1 class="main-header">🐚Speaking with Sri Krishna🦚🪈</h1>
+<p class="sub-header">Stop trying to fight this alone. Hand your doubts over to Keshav and let His perspective bring you peace</p>
 """
 st.markdown(theme_html, unsafe_allow_html=True)
 
@@ -136,13 +136,13 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 # 4. Handle Chat Query Interaction
-user_query = st.text_input("What internal battle or dilemma troubles your heart, Arjun?")
+user_query = st.text_input("Look within-— what is the real battle you are fighting today, Arjun?")
 
 if user_query:
     if not GROQ_API_KEY:
         st.error("🔒 Configuration Error: 'GROQ_API_KEY' is missing from your backend environment setup.")
     else:
-        with st.spinner("Madhav is preparing your answer..."):
+        with st.spinner("HARE KRISHAN HARE KRISHAN KRISHAN KRISHAN HARE HARE..."):
             try:
                 # Initialize Groq LLM
                 llm = ChatGroq(
