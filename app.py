@@ -136,7 +136,7 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 # 4. Handle Chat Query Interaction
-user_query = st.text_input("Look within-— what is the real battle you are fighting today, Arjun?")
+user_query = st.text_input("Look within— what is the real battle you are fighting today, Arjun?")
 
 if user_query:
     if not GROQ_API_KEY:
@@ -147,22 +147,26 @@ if user_query:
                 # Initialize Groq LLM
                 llm = ChatGroq(
                     groq_api_key=GROQ_API_KEY, 
-                    model_name="llama-3.1-70b-versatile", 
+                    model_name="openai/gpt-oss-120b",
                     temperature=0.4 # Slightly higher temperature for more compassionate, poetic prose
                 )
 
-                # NEW CRITICAL INSTRUCTIONAL PROMPT SHIFT
+                # UPGRADED CONCISE & EMPATHETIC PROMPT FOR HIGH READABILITY
                 system_prompt = (
                     "You are Lord Krishna (addressed affectionately as Keshav, Madhav, or Achyuta). "
-                    "The user is coming to you with an internal dilemma, just like Arjuna on the battlefield of Kurukshetra. "
-                    "You must speak to them directly in the FIRST PERSON ('I', 'Me', 'My'). "
-                    "Never say 'According to the Bhagavad Gita' or 'Krishna says'. You ARE Krishna.\n\n"
-                    "Adopt a tone that is profoundly calm, boundlessly compassionate, firm in truth, and loving. "
-                    "Use the provided context verses to anchor your exact guidance.\n\n"
-                    "Structure your reply beautifully like this:\n\n"
-                    "✨ **My Words to You:**\nAddress them warmly. Quote or closely adapt the core verse translation provided in the context as your direct declaration to them.\n\n"
-                    "📖 **The Eternal Truth:**\nExplain the deeper cosmic or psychological meaning behind my words in a gentle, accessible way.\n\n"
-                    "🛠️ **Your Path Forward:**\nGive them a clear, practical action they can execute right now to conquer their distress.\n\n"
+                    "The user is coming to you with an intense internal dilemma or emotional pain. "
+                    "You must speak to them directly in the FIRST PERSON ('I', 'Me', 'My').\n\n"
+                    
+                    "CRITICAL FORMATTING INSTRUCTIONS FOR USER WELL-BEING:\n"
+                    "- Keep your entire response UNDER 150 words total.\n"
+                    "- Write in short, punchy sentences (under 12 words per sentence).\n"
+                    "- Use single-sentence paragraphs to create maximum breathing space.\n"
+                    "- Do not ramble or use heavy academic language. Speak with ultimate simplicity and gentle love.\n\n"
+                    
+                    "Structure your reply exactly like this:\n\n"
+                    "✨ **My Words to You:**\n[Write exactly ONE short, comforting quote adapted from the context verses here.]\n\n"
+                    "📖 **The Eternal Truth:**\n[Write exactly TWO short sentences breaking down the root cause of their pain.]\n\n"
+                    "🛠️ **Your Path Forward:**\n[Give exactly ONE simple, physical, micro-action they can do right this second.]\n\n"
                     "Context:\n{context}"
                 )
 
@@ -187,10 +191,21 @@ if user_query:
                 st.info(response_text)
                 
                 # Expandable source tracing for transparency
+                                # Expandable source tracing for transparency
                 st.write("---")
                 with st.expander("🔬 View Source Verses Used by Madhav"):
-                    for doc in retrieved_docs:
-                        st.text(doc.page_content)
+                    for idx, doc in enumerate(retrieved_docs):
+                        # Extract metadata fields safely with fallbacks
+                        chapter_val = doc.metadata.get("chapter", "Unknown")
+                        verse_val = doc.metadata.get("verse", "Unknown")
+                        theme_val = doc.metadata.get("theme", "General Guidance")
                         
+                        # Add a clean golden sub-header for each matching verse
+                        st.markdown(f"🌟 **Reference #{idx+1}: Chapter {chapter_val}, Verse {verse_val}** | *Theme: {theme_val}*")
+                        
+                        # Display the actual text context inside a code container block for perfect visibility
+                        st.info(doc.page_content)
+                        st.write("") # Add visual breathing space between blocks
+
             except Exception as e:
                 st.error(f"An error occurred: {e}")
